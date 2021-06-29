@@ -11,7 +11,6 @@ import br.com.alura.leilao.model.Leilao;
 @Repository
 public class LanceDao {
 
-	@PersistenceContext
 	private EntityManager em;
 
 	public void salvar(Lance lance) {
