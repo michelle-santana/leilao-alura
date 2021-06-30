@@ -34,7 +34,7 @@ public class Usuario {
 	@Email
 	private String email;
 
-	// Sprign Security
+	// Srpign Security
 	private String role;
 	private boolean enabled;
 
