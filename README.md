@@ -2,5 +2,5 @@
 
 Projeto Leilao
 
-user: fulano
-password: pass
+*user: fulano
+*password: pass
