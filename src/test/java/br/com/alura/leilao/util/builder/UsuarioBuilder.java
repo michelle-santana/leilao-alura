@@ -3,11 +3,11 @@ package br.com.alura.leilao.util.builder;
 import br.com.alura.leilao.model.Usuario;
 
 public class UsuarioBuilder {
-	
+
 	private String nome;
 	private String email;
 	private String senha;
-
+	
 	public UsuarioBuilder comNome(String nome) {
 		this.nome = nome;
 		return this;

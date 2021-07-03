@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -36,47 +35,54 @@ class LeilaoDaoTest {
 
 	@Test
 	void deveriaCadastrarUmLeilao() {
-	
-		Usuario usuario = criarUsuario();
+		Usuario usuario = new UsuarioBuilder()
+				.comNome("Fulano")
+				.comEmail("fulano@email.com")
+				.comSenha("12345678")
+				.criar();
+		
+		em.persist(usuario);
+		
 		Leilao leilao = new LeilaoBuilder()
 				.comNome("Mochila")
-				.comValorInicial("70")
-		        .comUsuario(new UsuarioBuilder()
-		            .comNome("fulano")
-		            .comEmail("fulano@email.com")
-		            .comSenha("12345678")
-		            .criar())
-		       .criar();
-		
-		
+				.comValorInicial("500")
+				.comData(LocalDate.now())
+				.comUsuario(usuario)
+				.criar();
+	
 		leilao = dao.salvar(leilao);
-		Leilao salvo = dao.buscarPorId(leilao.getId());
 		
+		Leilao salvo = dao.buscarPorId(leilao.getId());
 		Assert.assertNotNull(salvo);
 	}
-
+	
 	@Test
 	void deveriaAtualizarUmLeilao() {
-	
-		Usuario usuario = criarUsuario();
-		Leilao leilao = new Leilao("mochila", new BigDecimal ("70"), LocalDate.now(), usuario);
+		Usuario usuario = new UsuarioBuilder()
+				.comNome("Fulano")
+				.comEmail("fulano@email.com")
+				.comSenha("12345678")
+				.criar();
+		
+		em.persist(usuario);
+		
+		Leilao leilao = new LeilaoBuilder()
+				.comNome("Mochila")
+				.comValorInicial("500")
+				.comData(LocalDate.now())
+				.comUsuario(usuario)
+				.criar();
 		
 		leilao = dao.salvar(leilao);
 		
 		leilao.setNome("Celular");
-		leilao.setValorInicial(new BigDecimal ("80"));
+		leilao.setValorInicial(new BigDecimal("400"));
 		
 		leilao = dao.salvar(leilao);
-		Leilao salvo = dao.buscarPorId(leilao.getId());
 		
+		Leilao salvo = dao.buscarPorId(leilao.getId());
 		Assert.assertEquals("Celular", salvo.getNome());
-		Assert.assertEquals(new BigDecimal ("80"), salvo.getValorInicial());
+		Assert.assertEquals(new BigDecimal("400"), salvo.getValorInicial());
 	}
-
-	private Usuario criarUsuario() {
-		Usuario usuario = new Usuario("fulano", "fulano@email.com", "12345678");
-		em.persist(usuario);
-		return usuario;
-	}
-
+	
 }
